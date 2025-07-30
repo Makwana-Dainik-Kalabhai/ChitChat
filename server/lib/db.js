@@ -8,7 +8,7 @@ const connectDB = async () => {
     mongoose.connection.on("error", (err) => {
       console.error(`MongoDB connection error: ${err}`);
     });
-    await mongoose.connect(process.env.MONGO_URI + "chat-app");
+    await mongoose.connect(process.env.MONGO_URI);
   } catch (error) {
     console.log(error.message);
   }

@@ -25,7 +25,7 @@ function App() {
     }
   ]);
 
-  return <div className="bg-[url('./src/assets/bgImage.svg')] bg-contain">
+  return <div className="bg-[url('/bgImage.svg')] bg-contain">
     <Toaster />
     <RouterProvider router={router} />
   </div>

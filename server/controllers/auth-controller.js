@@ -32,13 +32,13 @@ export const signup = async (req, res) => {
     return res.json({
       status: true,
       message: "signUp successfully",
-      token: await userExist.genToken(),
+      token: await newUser.genToken(),
       user: {
-        id: userExist._id,
-        fullName: userExist.fullName,
-        email: userExist.email,
-        profilePic: userExist.profilePic,
-        bio: userExist.bio,
+        id: newUser._id,
+        fullName: newUser.fullName,
+        email: newUser.email,
+        profilePic: newUser.profilePic,
+        bio: newUser.bio,
       },
     });
 
