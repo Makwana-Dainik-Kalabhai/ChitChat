@@ -16,7 +16,7 @@ export const signup = async (req, res) => {
     }
 
     //
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).maxTimeMS(5000);
 
     if (user) {
       return res.json({ status: false, message: "User already exists" });
@@ -27,7 +27,7 @@ export const signup = async (req, res) => {
       email,
       password,
       bio,
-    });
+    }).maxTimeMS(5000);
 
     return res.json({
       status: true,
@@ -56,7 +56,7 @@ export const login = async (req, res) => {
       return res.json({ status: false, message: "All fields are required" });
     }
 
-    const userExist = await User.findOne({ email });
+    const userExist = await User.findOne({ email }).maxTimeMS(5000);
 
     if (!userExist) {
       return res.json({ status: false, message: "User does not exist" });
@@ -101,7 +101,7 @@ export const updateProfile = async (req, res) => {
         id,
         { bio, fullName },
         { new: true }
-      );
+      ).maxTimeMS(5000);
     else {
       const upload = await cloudinary.uploader.upload(profilePic);
 
@@ -109,7 +109,7 @@ export const updateProfile = async (req, res) => {
         id,
         { profilePic: upload.secure_url, bio, fullName },
         { new: true }
-      );
+      ).maxTimeMS(5000);
     }
 
     return res.json({ status: true, user: updateUser });
