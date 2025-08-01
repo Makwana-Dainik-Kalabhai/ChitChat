@@ -47,7 +47,7 @@ export const getUsersForSidebar = async (req, res) => {
 
     const filterdUsers = await User.find({ _id: { $ne: userId } }).select(
       "-password"
-    ).maxTimeMS(5000);
+    ).maxTimeMS(50000);
 
     //* Count no. of msgs not seen
     const unseenMessages = {};
@@ -57,7 +57,7 @@ export const getUsersForSidebar = async (req, res) => {
         senderId: user._id,
         receiverId: userId,
         seen: false,
-      }).maxTimeMS(5000);
+      }).maxTimeMS(50000);
 
       if (messages.length > 0) {
         unseenMessages[user._id] = messages.length;
@@ -88,12 +88,12 @@ export const getMessages = async (req, res) => {
         { senderId: myId, receiverId: selectedUserId },
         { senderId: selectedUserId, receiverId: myId },
       ],
-    }).sort({ createdAt: 1 }).maxTimeMS(5000);
+    }).sort({ createdAt: 1 }).maxTimeMS(50000);
 
     await Message.updateMany(
       { senderId: selectedUserId, receiverId: myId, seen: false },
       { seen: true }
-    ).maxTimeMS(5000);
+    ).maxTimeMS(50000);
 
     return res.json({ status: true, messages: decryptMessage(messages) });
     //
@@ -107,7 +107,7 @@ export const markAsSeen = async (req, res) => {
   try {
     const { id } = req.params;
 
-    await Message.findByIdAndUpdate({ id }, { seen: true }).maxTimeMS(5000);
+    await Message.findByIdAndUpdate({ id }, { seen: true }).maxTimeMS(50000);
 
     return res.json({ status: true, message: "Message marked as seen" });
 
@@ -135,7 +135,7 @@ export const sendMessage = async (req, res) => {
       receiverId,
       text: text !== undefined ? text : "",
       image: imageUrl,
-    }).maxTimeMS(5000);
+    }).maxTimeMS(50000);
 
     // Emit the new msg to the receiver
     if (userSocketMap[receiverId]) {
