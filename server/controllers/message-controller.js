@@ -35,6 +35,7 @@ const decryptMessage = (messages) => {
       console.error("Error decrypting message:", err);
     }
   }
+
   return newMessages;
 };
 
@@ -128,11 +129,11 @@ export const sendMessage = async (req, res) => {
       const upload = await cloudinary.uploader.upload(image);
       imageUrl = upload.secure_url;
     }
-    
+
     const newMessage = await Message.create({
       senderId,
       receiverId,
-      text: "",
+      text: text !== undefined ? text : "",
       image: imageUrl,
     });
 
@@ -148,6 +149,7 @@ export const sendMessage = async (req, res) => {
 
     //
   } catch (error) {
+    console.log(error.message);
     return res.json({ status: false, message: error.message });
   }
 };
